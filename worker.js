@@ -1,6 +1,5 @@
 
-const ALLOWED_ORIGIN =
-  "https://ahmadmamennn-coder.github.io";
+const ALLOWED_ORIGIN = "https://ahmadmamennn-coder.github.io";
 
 export default {
   async fetch(request) {
@@ -10,18 +9,17 @@ export default {
       "Content-Type": "application/json",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Origin":
-        origin === ALLOWED_ORIGIN ? ALLOWED_ORIGIN : "null"
+      "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+      "Vary": "Origin"
     };
 
     if (request.method === "OPTIONS") {
-      return new Response(null, { headers });
+      return new Response(null, { status: 204, headers });
     }
 
     const url = new URL(request.url);
 
-    if (url.pathname === "/api/health" &&
-        request.method === "GET") {
+    if (url.pathname === "/api/health" && request.method === "GET") {
       return Response.json({
         status: "online",
         aiConfigured: false,
@@ -29,8 +27,7 @@ export default {
       }, { headers });
     }
 
-    if (url.pathname === "/api/generate" &&
-        request.method === "POST") {
+    if (url.pathname === "/api/generate" && request.method === "POST") {
       let body;
 
       try {
