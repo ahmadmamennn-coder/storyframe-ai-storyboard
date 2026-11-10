@@ -217,7 +217,7 @@ async function generate(){
  currentText = "";
 
  try{
-  const response = await fetch("/api/generate",{
+  const response = await fetch("https://storyframe-ai-storyboard.ahmadmamennn.workers.dev/api/generate",{
    method:"POST",
    headers:{"Content-Type":"application/json"},
    body:JSON.stringify({
