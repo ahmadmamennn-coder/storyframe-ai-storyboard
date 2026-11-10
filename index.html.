@@ -176,7 +176,60 @@ function generate(){
  });
 }
 
-$("generateBtn").addEventListener("click",generate);
+
+async function generate(){
+ const idea = $("idea").value.trim();
+ const count = Number($("count").value);
+ const style = $("style").value;
+ const genre = $("genre").value;
+ const language = $("lang").value;
+ const en = language === "en";
+
+ if(!idea){
+  alert(en ? "Please enter your story idea." : "Masukkan ide cerita terlebih dahulu.");
+  return;
+ }
+
+ const button = $("generateBtn");
+ const output = $("output");
+
+ button.disabled = true;
+ button.textContent = en ? "Connecting..." : "Menghubungkan...";
+ output.textContent = en ? "Contacting StoryFrame server..." : "Menghubungi server StoryFrame...";
+
+ try {
+  const response = await fetch("/api/generate", {
+   method: "POST",
+   headers: {
+    "Content-Type": "application/json"
+   },
+   body: JSON.stringify({
+    idea,
+    scenes: count,
+    style,
+    genre,
+    language
+   })
+  });
+
+  const data = await response.json();
+
+  if(!response.ok){
+   throw new Error(data.message || data.error || "AI is not ready yet.");
+  }
+
+  output.textContent = JSON.stringify(data, null, 2);
+
+ } catch(error) {
+  output.textContent = en
+   ? "Server connection failed or AI is not configured yet: " + error.message
+   : "Koneksi server gagal atau AI belum dikonfigurasi: " + error.message;
+ } finally {
+  button.disabled = false;
+  button.textContent = en ? "✦ Generate Storyboard" : "✦ Buat Storyboard";
+ }
+}
+
 
 $("copyBtn").addEventListener("click",async()=>{
  if(!currentText){
