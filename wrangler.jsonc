@@ -1,0 +1,7 @@
+
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "storyframe-ai-backend",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-11"
+}
